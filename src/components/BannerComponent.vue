@@ -19,15 +19,25 @@
           />
         </SwiperSlide>
       </Swiper>
-      <div v-if="items.filter(i => i.type === 'image').length > 1" class="flex flex-row overflow-x-auto">
-        <div v-for="(item, index) in items.filter(i => i.type === 'image')" :key="'thumb-' + index" class="w-20 h-20 flex-shrink-0 overflow-hidden rounded-lg mr-2 sm:w-24 sm:h-24 md:w-32 md:h-32">
-          <component
-            :is="resolveComponent(item)"
-            v-bind="item"
-            :mode="mode"
-          />
-        </div>
-      </div>
+      <Swiper
+        v-if="items.filter(i => i.type === 'image').length > 1"
+        :slides-per-view="4"
+        :loop="true"
+        :autoplay="{ delay: 1500, disableOnInteraction: false }"
+        :modules="[Autoplay]"
+        class="w-full h-20 sm:h-24 md:h-32 mb-2"
+        space-between="8"
+      >
+        <SwiperSlide v-for="(item, index) in items.filter(i => i.type === 'image')" :key="'thumb-' + index">
+          <div class="w-20 h-20 flex-shrink-0 overflow-hidden rounded-lg mr-2">
+            <component
+              :is="resolveComponent(item)"
+              v-bind="item"
+              :mode="mode"
+            />
+          </div>
+        </SwiperSlide>
+      </Swiper>
 
     </template>
   </div>
@@ -95,6 +105,7 @@
 import BannerImage from "./BannerImage.vue"
 import BannerCTA from "./BannerCTA.vue"
 import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Autoplay } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
 
 defineProps({
